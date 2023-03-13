@@ -1,3 +1,4 @@
 #!/bin/bash
-ls -1a | find -maxdepth 1 -empty
+find -empty | rev | cut -d / -f 1 | rev
+
 
