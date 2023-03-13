@@ -1,0 +1,3 @@
+#!/bin/bash
+ls -1a | find -maxdepth 1 -empty
+
