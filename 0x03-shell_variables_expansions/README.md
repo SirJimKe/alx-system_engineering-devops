@@ -7,3 +7,4 @@
 * File: **6-create_local_variables** creates a new local variable.
 * File: **7-create_global_variables** creates a new global variable.
 * File: **8-true_knowledge** prints the result of the addition of 128 with the value stored in the environment variable TRUEKNOWLEDGE.
+* File: **9-divide_and_rule** prints the result of POWER divided by DIVIDE.
