@@ -5,3 +5,4 @@
 * File: **4-global_variables** lists environment variables
 * File: **5-local_variables** lists all local variables and environment variables, and functions.
 * File: **6-create_local_variables** creates a new local variable.
+* File: **7-create_global_variables** creates a new global variable.
