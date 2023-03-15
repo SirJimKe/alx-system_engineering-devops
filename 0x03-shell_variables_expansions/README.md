@@ -14,4 +14,5 @@
 * File: **13-print_float** prints a number with two decimal places, followed by a new line.
 * File: **100-decimal_to_hexadecimal** coverts a number from base 10 to base 16.
 * File: **101-rot13** encodes and decodes text using the rot13 encryption.
-* File: **102-odd** prints every other line from the input, starting with the first line. 
+* File: **102-odd** prints every other line from the input, starting with the first line.
+* File: **103-water_and_stir** adds the two numbers stored in the environment variables WATER and STIR and prints the result.
