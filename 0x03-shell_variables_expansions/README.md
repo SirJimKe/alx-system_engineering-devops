@@ -12,3 +12,4 @@
 * File: **11-binary_to_decimal** converts a number from base 2 to base 10.
 * File: **12-combinations** prints all possible combinations of two letters, except oo.
 * File: **13-print_float** prints a number with two decimal places, followed by a new line.
+* File: **100-decimal_to_hexadecimal** coverts a number from base 10 to base 16.
