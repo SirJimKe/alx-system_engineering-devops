@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Get listening sockets information using netstat
+
+netstat -lp
