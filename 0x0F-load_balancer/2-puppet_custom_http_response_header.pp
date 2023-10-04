@@ -1,4 +1,4 @@
-# 2-puppet_custom_http_response_header.pp
+# This Puppet script will install Nginx and configure HTTP response header
 
 # Install Nginx package
 package { 'nginx':
@@ -30,4 +30,3 @@ service { 'nginx':
   enable  => true,
   require => File['/etc/nginx/sites-available/default'],
 }
-
