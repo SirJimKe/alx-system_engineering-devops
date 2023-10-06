@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Install Nginx (if not already installed)
+
+apt-get update
+apt-get install -y nginx
+
+# Create a configuration file to listen on port 80
+cat > /etc/nginx/sites-available/default <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name _;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+EOF
+
+# Remove the default Nginx test page
+rm -f /var/www/html/index.html
+
+# Reload Nginx to apply the new configuration
+systemctl reload nginx
