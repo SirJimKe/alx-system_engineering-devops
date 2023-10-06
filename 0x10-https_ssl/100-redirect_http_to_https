@@ -1,41 +1,51 @@
+# Global settings
 global
-    log     /dev/log local0
-    maxconn 2048
-    user    haproxy
-    group   haproxy
-    tune.ssl.default-dh-param 2048
+    log /dev/log local0
+    maxconn 4000
+    user haproxy
+    group haproxy
+    daemon
+    stats socket /var/lib/haproxy/stats
 
+# Default settings
 defaults
-    log     global
-    mode    http
-    option  httplog
-    option  dontlognull
-    retries 3
-    option  redispatch
-    timeout connect  5000
-    timeout client  10000
-    timeout server  10000
-    option  forwardfor
-    option  http-server-close
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    timeout connect 5000
+    timeout client 50000
+    timeout server 50000
 
-frontend www-http
-    bind   0.0.0.0:80
+# Frontend for HTTP (port 80) with redirection to HTTPS
+frontend http-in
+    bind *:80
+    mode http
+    option forwardfor
     reqadd X-Forwarded-Proto:\ http
-    default_backend www-backend
-    redirect scheme https code 301 if !{ ssl_fc }
+    acl is-ssl dst_port 443
+    redirect scheme https code 301 if !is-ssl
 
-frontend www-https
-    bind   0.0.0.0:443 ssl crt /etc/haproxy/certs/www.bdbnb.site.pem
+# Frontend for HTTPS (port 443) with SSL certificate
+frontend https-in
+    bind *:443 ssl crt /etc/haproxy/certs/www.jimthedev.tech
+    mode http
+    option forwardfor
     reqadd X-Forwarded-Proto:\ https
-    acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
-    use_backend letsencrypt-backend if letsencrypt-acl
-    default_backend www-backend
 
+    # Example ACL for www subdomain
+    acl is-www hdr(host) -i www.jimthedev.tech
+
+    # Use appropriate backend based on ACLs
+    use_backend www-backend if is-www
+    use_backend letsencrypt-backend if letsencrypt-acl
+
+# Backend configuration for web servers
 backend www-backend
-    balance  roundrobin
-    redirect scheme https if !{ ssl_fc }
+    balance roundrobin
     server 318409-web-01 54.236.45.64:80 check
     server 318409-web-02 54.84.213.70:80 check
 
+# Backend configuration for Let's Encrypt ACME challenges
 backend letsencrypt-backend
     server letsencrypt 127.0.0.1:54321
