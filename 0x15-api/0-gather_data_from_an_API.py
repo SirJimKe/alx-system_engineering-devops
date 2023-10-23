@@ -15,7 +15,7 @@ if __name__ == "__main__":
     response = requests.get(todo_url)
     user_res = requests.get(user_url)
 
-    todos = response.json()
+    todos = response.json(strict=False)
     users = user_res.json()
 
     completed_tasks = [todo for todo in todos if todo['completed']]
