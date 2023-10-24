@@ -3,7 +3,7 @@
 A script that fetch employee todo list progress
 and exports it to CSV
 """
-import csv
+import json
 import requests
 import sys
 
@@ -19,15 +19,15 @@ if __name__ == "__main__":
     response = requests.get(base_url + "/todos?userId=" + str(employee_id))
     tasks = response.json(strict=False)
 
-    data = []
+    data = {}
     for task in tasks:
         user_id = task.get('userId')
         username = employee_name
         completed = task.get('completed')
         title = task.get('title')
-        row = [user_id, username, completed, title]
-        data.append(row)
+        task_data = {"task": title, "completed": completed,
+                     "username": username}
+        data.setdefault(user_id, []).append(task_data)
 
-    with open("{}.csv".format(employee_id), "w") as f:
-        writer = csv.writer(f, quoting=csv.QUOTE_ALL)
-        writer.writerows(data)
+    with open("{}.json".format(employee_id), "w") as f:
+        json.dump(data, f)
