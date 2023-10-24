@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-"""A script that fetch employee todo list progress"""
+"""
+A script that fetch employee todo list progress
+and exports it to CSV
+"""
+import csv
 import requests
 import sys
 
@@ -20,12 +24,10 @@ if __name__ == "__main__":
         if task["completed"]:
             completed_tasks.append(task["title"])
 
-    total_tasks = len(tasks)
-    completed_tasks_count = len(completed_tasks)
-
-
-    print("Employee {} is done with tasks ({}/{}):".format(
-        employee_name, completed_tasks_count, total_tasks))
-
-    for task in completed_tasks:
-        print("\t{}".format(task))
+    with open('{}.csv'.format(employee_id), 'w') as file:
+        for task in tasks:
+            file.write('"{}","{}","{}","{}"\n'.format(
+                employee_id,
+                employee_name,
+                task.get('completed'),
+                task.get('title')))
