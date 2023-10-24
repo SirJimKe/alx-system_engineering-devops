@@ -30,8 +30,8 @@ if __name__ == "__main__":
             title = task.get('title')
 
             if task_user_id == user_id:
-                task_data = {"username": username, "task":title,
-                             "completed":completed}
+                task_data = {"username": username, "task": title,
+                             "completed": completed}
                 user_tasks.append(task_data)
 
         data[user_id] = user_tasks
