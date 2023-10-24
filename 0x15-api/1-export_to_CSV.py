@@ -14,15 +14,15 @@ if __name__ == "__main__":
     employee_id = int(sys.argv[1])
 
     response = requests.get(base_url + "/users/" + str(employee_id))
-    employee_name = response.json()["name"]
+    employee_name = response.json().get("name")
 
     response = requests.get(base_url + "/todos?userId=" + str(employee_id))
     tasks = response.json(strict=False)
 
     completed_tasks = []
     for task in tasks:
-        if task["completed"]:
-            completed_tasks.append(task["title"])
+        if task.get("completed"):
+            completed_tasks.append(task.get("title"))
 
     with open('{}.csv'.format(employee_id), 'w') as file:
         for task in tasks:
