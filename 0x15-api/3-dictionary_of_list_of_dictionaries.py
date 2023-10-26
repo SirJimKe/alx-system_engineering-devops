@@ -8,33 +8,21 @@ import requests
 
 base_url = "https://jsonplaceholder.typicode.com"
 
-
 if __name__ == "__main__":
-    response = requests.get(base_url + "/users/")
-    users = response.json(strict=False)
-
     response = requests.get(base_url + "/todos")
     tasks = response.json(strict=False)
 
-    data = {}
+    employee_tasks = {}
+    for task in tasks:
+        user_id = task.get("userId")
+        task_data = {
+            "username": task.get("title"),
+            "task": task.get("title"),
+            "completed": task.get("completed")
+            }
+        if user_id not in employee_tasks:
+            employee_tasks[user_id] = []
+        employee_tasks[user_id].append(task_data)
 
-    for user in users:
-        user_id = user.get("id")
-        username = user.get("name")
-
-        user_tasks = []
-
-        for task in tasks:
-            task_user_id = task.get('userId')
-            completed = task.get('completed')
-            title = task.get('title')
-
-            if task_user_id == user_id:
-                task_data = {"username": username, "task": title,
-                             "completed": completed}
-                user_tasks.append(task_data)
-
-        data[user_id] = user_tasks
-
-    with open("todo_all_employees.json", "w") as f:
-        json.dump(data, f)
+    with open("todo_all_employees.json", "w") as json_file:
+        json.dump(employee_tasks, json_file)
